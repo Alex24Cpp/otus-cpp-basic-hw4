@@ -64,11 +64,11 @@ World::World(const std::string& worldFilePath) {
         // Здесь не хватает самого главного - создания
         // объекта класса Ball со свойствами, прочитанными
         // выше, и его помещения в контейнер balls
-        Point p{x, y};
-        Point vp{vx,vy};
-        Velocity v{vp};
-        Color c{red,green, blue};
-        Ball ball{p, radius, v, c};
+        // Point p{x, y};
+        // Point vp{vx,vy};
+        // Velocity v{vp};
+        // Color c{red,green, blue};
+        Ball ball{Point{x, y}, radius, Point{vx,vy}, Color{red,green, blue}}; // в третьем аргументе неявное преобразование Point{vx,vy} -> Velocity{vp}
 
 
         // После того как мы каким-то образом

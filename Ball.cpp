@@ -1,8 +1,27 @@
 #include "Ball.hpp"
 #include <cmath>
+//
+#include <cstdlib>
+// #include <ctime>
+// #include <chrono>
+// #include <iostream>
 
 Ball::Ball(Point center, double radius, Velocity velocity, Color color)
-    : m_center{center}, m_radius{radius}, m_velocity{velocity}, m_color{color} {}
+    : m_center{center}, m_radius{radius}, m_velocity{velocity}, m_color{color} {
+        switch (random_value(10)) {
+			case 1:
+                m_color = Color(1, 0, 0); // red
+                break;
+			case 2:
+                m_color = Color(0, 1, 0);  //green
+				break;
+			case 3:
+                m_color = Color(0, 0, 1); // blue
+                break;
+            default:
+                break;
+        }
+    }
 
 /**
  * Задает скорость объекта
@@ -71,4 +90,12 @@ double Ball::getRadius() const {
 double Ball::getMass() const {
     // TODO: место для доработки
     return M_1_PI * pow(m_radius, 3) * 4. / 3.;
+}
+
+/**
+ * @brief Возвращает случайное число от 0 до max_value-1
+ * @details Вспомогательная функция
+ */
+int Ball::random_value(int max_value) {
+	return std::rand() % max_value;
 }

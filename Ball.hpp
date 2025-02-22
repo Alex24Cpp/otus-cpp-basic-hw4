@@ -16,6 +16,8 @@ public:
     double getRadius() const;
     double getMass() const;
 private:
+    int random_value(int max_value);
+
     Point m_center;
     double m_radius;
     Velocity m_velocity;

@@ -1,5 +1,6 @@
 #include "Ball.hpp"
 #include <cmath>
+#include <fstream>
 
 Ball::Ball(Point center, double radius, Velocity velocity, Color color)
     : m_center{center}, m_radius{radius}, m_velocity{velocity}, m_color{color} {}
@@ -62,6 +63,15 @@ double Ball::getRadius() const {
 }
 
 /**
+ * Задает радиус объекта
+ * @param radius радиус объекта
+ */
+
+void Ball::setRadius(const double& radius){
+    m_radius = radius;
+}
+
+/**
  * @brief Возвращает массу объекта
  * @details В нашем приложении считаем, что все шары
  * состоят из одинакового материала с фиксированной
@@ -71,4 +81,33 @@ double Ball::getRadius() const {
 double Ball::getMass() const {
     // TODO: место для доработки
     return M_1_PI * pow(m_radius, 3) * 4. / 3.;
+}
+
+/**
+ * Задает цвет объекта
+ * @param color цвет объекта
+ */
+
+ void Ball::setColor(const Color& color) {
+    m_color = color;
+}
+
+/**
+ * @brief Переопределение операции ввода >> 
+ */
+std::istream& operator>>(std::istream &stream, Ball& ball) {
+    double x ,y, z;
+    // Читаем и задаем координаты центра шара
+    stream >> x >> y;
+    ball.setCenter(Point{x, y}); 
+    //Читаем и задаем вектор скорости шара
+    stream >> x >> y;
+    ball.setVelocity(Point{x, y});
+    // Читаем три составляющие цвета шара (red, green, blue) и задаем цвет шара
+    stream >> x >> y >> z;
+    ball.setColor(Color{x, y, z});
+    // Читаем и задаем радиус шара
+    stream >> z;
+    ball.setRadius(z);
+    return stream;
 }

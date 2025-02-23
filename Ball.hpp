@@ -13,11 +13,16 @@ public:
     void draw(Painter& painter) const;
     void setCenter(const Point& center);
     Point getCenter() const;
+    void setRadius(const double& radius);
     double getRadius() const;
     double getMass() const;
+    void setColor(const Color& color);
 private:
     Point m_center;
     double m_radius;
     Velocity m_velocity;
     Color m_color;
 };
+
+std::istream& operator>>(std::istream& stream, Ball& ball);
+

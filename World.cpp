@@ -23,7 +23,7 @@ World::World(const std::string& worldFilePath) {
      * многократно - хорошо бы вынести это в функцию
      * и не дублировать код...
      */
-    stream >> topLeft.x >> topLeft.y >> bottomRight.x >> bottomRight.y;
+    stream >> topLeft >> bottomRight;
     physics.setWorldBox(topLeft, bottomRight);
 
     /**
@@ -32,44 +32,19 @@ World::World(const std::string& worldFilePath) {
      * как и (red, green, blue). Опять же, можно упростить
      * этот код, научившись читать сразу Point, Color...
      */
-    double x;
-    double y;
-    double vx;
-    double vy;
-    double radius;
-
-    double red;
-    double green;
-    double blue;
-
     bool isCollidable;
 
     // Здесь не хватает обработки ошибок, но на текущем
     // уровне прохождения курса нас это устраивает
     while (stream.peek(), stream.good()) {
-        // Читаем координаты центра шара (x, y) и вектор
-        // его скорости (vx, vy)
-        stream >> x >> y >> vx >> vy;
-        // Читаем три составляющие цвета шара
-        stream >> red >> green >> blue;
-        // Читаем радиус шара
-        stream >> radius;
+        // Создаём объект шар и читаем параметры шара из файла
+        Ball ball = Ball();
+        stream >> ball;
         // Читаем свойство шара isCollidable, которое
         // указывает, требуется ли обрабатывать пересечение
         // шаров как столкновение. Если true - требуется.
         // В базовой части задания этот параметр
         stream >> std::boolalpha >> isCollidable;
-
-        // TODO: место для доработки.
-        // Здесь не хватает самого главного - создания
-        // объекта класса Ball со свойствами, прочитанными
-        // выше, и его помещения в контейнер balls
-        Point p{x, y};
-        Point vp{vx,vy};
-        Velocity v{vp};
-        Color c{red,green, blue};
-        Ball ball{p, radius, v, c};
-
 
         // После того как мы каким-то образом
         // сконструируем объект Ball ball;

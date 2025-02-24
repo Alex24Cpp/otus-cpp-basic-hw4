@@ -84,19 +84,39 @@ double Ball::getMass() const {
 }
 
 /**
- * Задает цвет объекта
+ * @brief Задает цвет объекта
  * @param color цвет объекта
  */
-
- void Ball::setColor(const Color& color) {
+void Ball::setColor(const Color& color) {
     m_color = color;
 }
+
+/**
+ * @brief Задает флаг isCollidable объекта. 
+ * Шары, для которых isCollidable==false,
+ * не сталкиваются с другими объектами, а проходят сквозь них
+ * @param isCollidable флаг
+ */
+void Ball::setIsCollidable(const bool& isCollidable) {
+    m_isCollidable = isCollidable;
+}
+
+/**
+ * @brief Возвращает флаг isCollidable объекта. 
+ * Шары, для которых isCollidable==false,
+ * не сталкиваются с другими объектами, а проходят сквозь них
+ */
+bool Ball::getIsCollidable() const {
+    return m_isCollidable;
+}
+
 
 /**
  * @brief Переопределение операции ввода >> 
  */
 std::istream& operator>>(std::istream &stream, Ball& ball) {
     double x ,y, z;
+    bool b;
     // Читаем и задаем координаты центра шара
     stream >> x >> y;
     ball.setCenter(Point{x, y}); 
@@ -109,5 +129,8 @@ std::istream& operator>>(std::istream &stream, Ball& ball) {
     // Читаем и задаем радиус шара
     stream >> z;
     ball.setRadius(z);
+    // Читаем и задаем флаг setIsCollidable шара
+    stream >> std::boolalpha >> b;
+    ball.setIsCollidable(b);
     return stream;
 }

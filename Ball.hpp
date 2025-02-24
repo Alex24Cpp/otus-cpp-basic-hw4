@@ -17,11 +17,14 @@ public:
     double getRadius() const;
     double getMass() const;
     void setColor(const Color& color);
+    void setIsCollidable(const bool& isCollidable);
+    bool getIsCollidable() const;
 private:
     Point m_center;
     double m_radius;
     Velocity m_velocity;
     Color m_color;
+    bool m_isCollidable;
 };
 
 std::istream& operator>>(std::istream& stream, Ball& ball);

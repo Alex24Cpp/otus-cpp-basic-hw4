@@ -32,7 +32,7 @@ World::World(const std::string& worldFilePath) {
      * как и (red, green, blue). Опять же, можно упростить
      * этот код, научившись читать сразу Point, Color...
      */
-    bool isCollidable;
+    // bool isCollidable;
 
     // Здесь не хватает обработки ошибок, но на текущем
     // уровне прохождения курса нас это устраивает
@@ -44,7 +44,7 @@ World::World(const std::string& worldFilePath) {
         // указывает, требуется ли обрабатывать пересечение
         // шаров как столкновение. Если true - требуется.
         // В базовой части задания этот параметр
-        stream >> std::boolalpha >> isCollidable;
+        // stream >> std::boolalpha >> isCollidable;
 
         // После того как мы каким-то образом
         // сконструируем объект Ball ball;

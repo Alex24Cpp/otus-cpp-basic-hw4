@@ -66,7 +66,6 @@ double Ball::getRadius() const {
  * Задает радиус объекта
  * @param radius радиус объекта
  */
-
 void Ball::setRadius(const double& radius){
     m_radius = radius;
 }
@@ -80,7 +79,7 @@ void Ball::setRadius(const double& radius){
  */
 double Ball::getMass() const {
     // TODO: место для доработки
-    return M_1_PI * pow(m_radius, 3) * 4. / 3.;
+    return M_PI * pow(m_radius, 3) * 4. / 3.;
 }
 
 /**

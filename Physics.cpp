@@ -1,4 +1,5 @@
 #include "Physics.hpp"
+#include <cmath>
 
 double dot(const Point& lhs, const Point& rhs) {
     return lhs.x * rhs.x + lhs.y * rhs.y;
@@ -11,16 +12,32 @@ void Physics::setWorldBox(const Point& topLeft, const Point& bottomRight) {
     this->bottomRight = bottomRight;
 }
 
-void Physics::update(std::vector<Ball>& balls, const size_t ticks) const {
+void Physics::update(std::vector<Ball>& balls, std::vector<Ball>& dusts, const size_t ticks, bool stopDusts) {
 
     for (size_t i = 0; i < ticks; ++i) {
         move(balls);
         collideWithBox(balls);
-        collideBalls(balls);
+        collideBalls(balls, dusts);
+        if (stopDusts)
+            dusts.clear();
+        if (!dusts.empty()) {
+            int index{0};
+            for (Ball& dust : dusts) {
+                int currentLiveTime = static_cast<Dust*>(&dust)->getLiveTime();
+                if (currentLiveTime == 0) {
+                    dusts.erase(dusts.begin() + index);
+                }
+                else {
+                    static_cast<Dust*>(&dust)->setLiveTime(--currentLiveTime);
+                }
+                index++;
+            }
+            move(dusts);
+        }
     }
 }
 
-void Physics::collideBalls(std::vector<Ball>& balls) const {
+void Physics::collideBalls(std::vector<Ball>& balls, std::vector<Ball>& dusts) {
     for (auto a = balls.begin(); a != balls.end(); ++a) {
         if (!a->getIsCollidable()) continue;
         for (auto b = std::next(a); b != balls.end(); ++b) {
@@ -33,6 +50,7 @@ void Physics::collideBalls(std::vector<Ball>& balls) const {
 
             if (distanceBetweenCenters2 < collisionDistance2) {
                 processCollision(*a, *b, distanceBetweenCenters2);
+                creatDusts(dusts, a->getCenter()); // centr == a->getCenter() для упрощения. Визуально не влияет
             }
         }
     }
@@ -86,3 +104,11 @@ void Physics::processCollision(Ball& a, Ball& b,
     a.setVelocity(Velocity(aV - normal * p * a.getMass()));
     b.setVelocity(Velocity(bV + normal * p * b.getMass()));
 }
+
+void Physics::creatDusts(std::vector<Ball>& dusts, const Point& center) const {
+    for (int i = 0; i < 8; i++) {
+        Dust dust = Dust(center, Velocity(500., (M_PI / 4) * i));
+        dusts.push_back(dust);
+    }
+}
+

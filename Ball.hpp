@@ -19,7 +19,7 @@ public:
     void setColor(const Color& color);
     void setIsCollidable(const bool& isCollidable);
     bool getIsCollidable() const;
-private:
+protected:
     Point m_center;
     double m_radius;
     Velocity m_velocity;

@@ -40,12 +40,6 @@ World::World(const std::string& worldFilePath) {
         // Создаём объект шар и читаем параметры шара из файла
         Ball ball = Ball();
         stream >> ball;
-        // Читаем свойство шара isCollidable, которое
-        // указывает, требуется ли обрабатывать пересечение
-        // шаров как столкновение. Если true - требуется.
-        // В базовой части задания этот параметр
-        // stream >> std::boolalpha >> isCollidable;
-
         // После того как мы каким-то образом
         // сконструируем объект Ball ball;
         // добавьте его в конец контейнера вызовом
@@ -63,10 +57,18 @@ void World::show(Painter& painter) const {
     for (const Ball& ball : balls) {
         ball.draw(painter);
     }
+
+    // Вызываем отрисовку искр
+    if (!dusts.empty()) {
+        for (const Ball& dust : dusts) {
+            dust.draw(painter);
+        }
+    }
+
 }
 
 /// @brief Обновляет состояние мира
-void World::update(double time) {
+void World::update(double time, double totalTime) {
     /**
      * В реальном мире время течет непрерывно. Однако
      * компьютеры дискретны по своей природе. Поэтому
@@ -87,5 +89,8 @@ void World::update(double time) {
     const auto ticks = static_cast<size_t>(std::floor(time / timePerTick));
     restTime = time - double(ticks) * timePerTick;
 
-    physics.update(balls, ticks);
+    bool stopDusts{false};
+    if (totalTime > 9.95)
+        stopDusts = true;
+    physics.update(balls, dusts, ticks, stopDusts);
 }
